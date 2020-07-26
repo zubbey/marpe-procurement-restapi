@@ -17,4 +17,5 @@ const productSchema = mongoose.Schema({
     modified: {type: Date}
 }, { collection : 'products' });
 
+productSchema.index({name: 'text', categoryId: 'text'}, {default_language: 'none'});
 module.exports = mongoose.model('Product', productSchema);
