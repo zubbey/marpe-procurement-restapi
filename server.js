@@ -12,7 +12,13 @@ const DIR = './uploads';
 // Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: [
+        'http://localhost:8080',
+        'https://procurement.marpe.online'
+    ]
+}));
 app.use('/api', routes);
 app.use('./uploads', express.static('uploads'));
 
@@ -24,6 +30,17 @@ app.get('/', (req, res) => {
 });
 app.get('/uploads/:filename', async (req, res) => {
     let image = await path.join(__dirname, `/uploads/${req.params.filename}`);
+    res.sendFile(image);
+});
+// for products images
+app.get('/uploads/products/:filename', async (req, res) => {
+    let image = await path.join(__dirname, `/uploads/products/${req.params.filename}`);
+    res.sendFile(image);
+});
+
+// for products Thumbnails
+app.get('/uploads/products/thumbnails/:filename', async (req, res) => {
+    let image = await path.join(__dirname, `/uploads/products/thumbnails/${req.params.filename}`);
     res.sendFile(image);
 });
 app.delete('/uploads/:filename', (req, res) => {

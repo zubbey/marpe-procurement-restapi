@@ -5,6 +5,7 @@ const CartSchema = mongoose.Schema({
         _id: {type: String},
         name: {type: String},
         price: {type: Number},
+        weight: {type: Number},
         slug: {type: String},
         thumbnail: {type: String},
     },
@@ -16,6 +17,7 @@ const CartSchema = mongoose.Schema({
         }
     },
     qty: {type: Number, default: 0},
+    totalprice: {type: Number, default: 0},
     addedDate: {type: Date, default: Date.now},
     modified: {type: Date}
 }, { collection : 'cart' });
