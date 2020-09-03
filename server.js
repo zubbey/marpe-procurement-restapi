@@ -1,4 +1,4 @@
-require('dotenv').config({path: '.env'});
+require('dotenv').config({ path: '.env' });
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
@@ -15,9 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     credentials: true,
     origin: [
-        // 'http://localhost:8080',
-        'http://procurement.marpe.online/',
-        'https://procurement.marpe.online/'
+        'http://procurement.marpe.online',
+        'https://procurement.marpe.online'
     ]
 }));
 app.use('/api', routes);
@@ -45,27 +44,25 @@ app.get('/uploads/products/thumbnails/:filename', async (req, res) => {
     res.sendFile(image);
 });
 app.delete('/uploads/:filename', (req, res) => {
-    message : "Error! in image upload.";
+    message: "Error! in image upload.";
     if (!req.params.filename) {
         message = "Error! in image delete.";
         return res.status(500).json('error in delete');
-    
-      } else {
+    } else {
         try {
-            fs.unlinkSync(DIR+'/'+req.params.filename);
+            fs.unlinkSync(DIR + '/' + req.params.filename);
             return res.status(200).send('Successfully! Image has been Deleted');
         } catch (err) {
-        // handle the error
-        return res.status(400).send(err);
+            // handle the error
+            return res.status(400).send(err);
         }
-        
-      }
+    }
 });
-mongoose.connect(process.env.PRODUCTION_DB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, ()=> {
+mongoose.connect(process.env.PRODUCTION_DB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, () => {
     console.log('Database connected successfully!')
 });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // server port connection
-app.listen(PORT, ()=> console.log(`Listen to Port: ${PORT}`));
+app.listen(PORT, () => console.log(`Listen to Port: ${PORT}`));

@@ -100,7 +100,6 @@ router.post('/category', authenticateToken, async (req, res) => {
         if (!admin.isAdmin == true) {
             return res.status(403).send({ message: 'you don\'t have the privilege to make this request' })
         }
-
         const newCategory = await addCategory.save();
         res.status(201).json(newCategory);
 
@@ -117,9 +116,8 @@ router.delete('/category/:id', authenticateToken, async (req, res) => {
         if (!admin.isAdmin == true) {
             return res.status(403).send({ message: 'you don\'t have the privilege to make this request' })
         }
-
         deleteCategory = await Category.deleteOne({ _id: req.params.id });
-        res.status(200).json({deleted: deleteCategory});
+        res.status(200).json(deleteCategory);
     } catch (error) {
         res.status(400).send({ message: error.message });
     }
