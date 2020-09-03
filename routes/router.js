@@ -90,11 +90,16 @@ router.get('/category', async (req, res) => {
 });
 
 // Create a new Category ENDPOINT
-router.post('/category', async (req, res) => {
+router.post('/category', authenticateToken, async (req, res) => {
     const addCategory = new Category({
         categoryName: req.body.categoryName
     });
     try {
+        const admin = await Admin.findOne({ email: req.email.email });
+
+        if (!admin.isAdmin == true) {
+            return res.status(403).send({ message: 'you don\'t have the privilege to make this request' })
+        }
         const newCategory = await addCategory.save();
         res.status(201).json(newCategory);
 
@@ -104,8 +109,13 @@ router.post('/category', async (req, res) => {
 });
 
 // Delete a Specific Category
-router.delete('/category/:id', async (req, res) => {
+router.delete('/category/:id', authenticateToken, async (req, res) => {
     try {
+        const admin = await Admin.findOne({ email: req.email.email });
+
+        if (!admin.isAdmin == true) {
+            return res.status(403).send({ message: 'you don\'t have the privilege to make this request' })
+        }
         deleteCategory = await Category.deleteOne({ _id: req.params.id });
         res.status(200).json(deleteCategory);
     } catch (error) {
