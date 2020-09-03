@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     credentials: true,
     origin: [
-        'http://localhost:8080',
-        'https://procurement.marpe.online'
+        'http://procurement.marpe.online',
+	'https://procurement.marpe.online'
     ]
 }));
 app.use('/api', routes);
@@ -60,7 +60,7 @@ app.delete('/uploads/:filename', (req, res) => {
         
       }
 });
-mongoose.connect(process.env.LOCAL_DB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, ()=> {
+mongoose.connect(process.env.PRODUCTION_DB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, ()=> {
     console.log('Database connected successfully!')
 });
 const db = mongoose.connection;
